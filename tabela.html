@@ -29,22 +29,27 @@
             <td id="total"></td>
         </tr>
     </table>
+
     <br>
     <button onclick="window.location.href='index.html'">Voltar</button>
-    
+
     <script>
-        let dados = JSON.parse(localStorage.getItem("dadosFormulario"));
-        if (dados) {
-            document.getElementById("tipoContrato").textContent = dados.tipoContrato;
-            document.getElementById("mensalidade").textContent = dados.mensalidade ? `R$ ${Number(dados.mensalidade).toFixed(2)}` : "-";
-            document.getElementById("horaTecnica").textContent = dados.horaTecnica ? `R$ ${Number(dados.horaTecnica).toFixed(2)}` : "-";
+        let dados = JSON.parse(localStorage.getItem("dadosFormulario")) || {}; 
+
+        if (Object.keys(dados).length > 0) {
+            document.getElementById("tipoContrato").textContent = dados.tipoContrato || "-";
+            document.getElementById("mensalidade").textContent = dados.mensalidade ? `R$ ${dados.mensalidade.toFixed(2)}` : "-";
+            document.getElementById("horaTecnica").textContent = dados.horaTecnica ? `R$ ${dados.horaTecnica.toFixed(2)}` : "-";
             document.getElementById("horasTrabalhadas").textContent = dados.horasTrabalhadas || "-";
-            document.getElementById("gfs").textContent = dados.gfs;
-            document.getElementById("dayoff").textContent = dados.dayoff.length ? dados.dayoff.join(", ") : "Nenhum";
+            document.getElementById("gfs").textContent = dados.gfs || "-";
+            document.getElementById("dayoff").textContent = (dados.dayoff && dados.dayoff.length) ? dados.dayoff.join(", ") : "Nenhum";
             document.getElementById("mentorCate").textContent = dados.mentorCate ? "Sim" : "Não";
-            
-            let totalCalculado = Number(dados.total) || 0; // Garante que seja um número válido
+
+            let totalCalculado = isNaN(Number(dados.total)) ? 0 : Number(dados.total);
             document.getElementById("total").textContent = `R$ ${totalCalculado.toFixed(2)}`;
+        } else {
+            alert("Nenhum dado encontrado. Preencha o formulário novamente.");
+            window.location.href = "index.html";
         }
     </script>
 </body>
