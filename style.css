@@ -1,4 +1,3 @@
-/* Resetando margens e fontes */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -7,61 +6,46 @@ body {
     padding: 0;
 }
 
-/* Caixa do formulário */
 .container {
-    width: 40%;
-    background: white;
-    padding: 20px;
+    width: 50%;
     margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Imagem acima do formulário */
-.logo {
-    width: 150px;  /* Ajuste conforme necessário */
-    margin-bottom: 20px;
-}
-
-/* Título */
 h2 {
     color: #333;
 }
 
-/* Labels e inputs */
 label {
-    display: block;
     font-weight: bold;
-    margin: 10px 0 5px;
 }
 
 input, select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-/* Checkboxes alinhados */
-input[type="checkbox"] {
-    width: auto;
-    margin-right: 5px;
-}
-
-/* Botão estilizado */
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
+    background-color: #28a745;
     color: white;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
+
+.logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
