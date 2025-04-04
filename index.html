@@ -4,59 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Prestadores de Serviço</title>
-</head>
-<body>
-    <h2>Calculadora de Prestadores de Serviço</h2>
-    
-    <label for="tipoContrato">Tipo de Contrato:</label>
-    <select id="tipoContrato">
-        <option value="Fixo">Fixo</option>
-        <option value="Variável">Variável</option>
-    </select>
-
-    <br>
-
-    <label for="mensalidade">Valor da Mensalidade:</label>
-    <input type="number" id="mensalidade" placeholder="Digite o valor">
-
-    <br>
-
-    <label for="horaTecnica">Valor da Hora Técnica:</label>
-    <input type="number" id="horaTecnica" placeholder="Digite o valor">
-
-    <br>
-
-    <label for="horasTrabalhadas">Horas Trabalhadas:</label>
-    <input type="number" id="horasTrabalhadas" placeholder="Digite as horas">
-
-    <br>
-
-    <label for="gfs">GFS:</label>
-    <select id="gfs">
-        <option value="Venda">Venda</option>
-        <option value="Usufruto">Usufruto</option>
-    </select>
-
-    <br>
-
-    <label>Dayoff:</label><br>
-    <input type="checkbox" id="paternidade" value="Paternidade"> Paternidade<br>
-    <input type="checkbox" id="casamento" value="Casamento"> Casamento<br>
-    <input type="checkbox" id="aniversario" value="Aniversário"> Aniversário<br>
-    <input type="checkbox" id="condolencias" value="Condolências"> Condolências<br>
-    <input type="checkbox" id="feriado" value="Feriado"> Feriado<br>
-    <input type="checkbox" id="atestado" value="Atestado"> Atestado<br>
-
-    <br>
-
-    <label for="mentorCate">Mentor CATe:</label>
-    <input type="checkbox" id="mentorCate">
-
-    <br><br>
-
-    <button onclick="calcularTotal()">Calcular</button>
-    <button onclick="enviarFormulario()">Enviar</button>
-
     <script>
         function calcularTotal() {
             let tipoContrato = document.getElementById("tipoContrato").value;
@@ -67,10 +14,8 @@
             let mentorCate = document.getElementById("mentorCate").checked;
 
             let dayoff = [];
-            document.querySelectorAll("input[type=checkbox]:checked").forEach((checkbox) => {
-                if (checkbox.id !== "mentorCate") {
-                    dayoff.push(checkbox.value);
-                }
+            document.querySelectorAll("input[name='dayoff']:checked").forEach((checkbox) => {
+                dayoff.push(checkbox.value);
             });
 
             let total = 0;
@@ -106,8 +51,7 @@
             };
 
             localStorage.setItem("dadosFormulario", JSON.stringify(dadosFormulario));
-
-            alert("Cálculo realizado! Clique em 'Enviar' para visualizar na tabela.");
+            document.getElementById("mensagemSucesso").textContent = "Cálculo realizado com sucesso!";
         }
 
         function enviarFormulario() {
@@ -117,6 +61,10 @@
                 alert("Calcule os valores antes de enviar!");
             }
         }
-    </script>
-</body>
-</html>
+
+        function alternarCampos() {
+            let tipoContrato = document.getElementById("tipoContrato").value;
+            document.getElementById("campoMensalidade").style.display = (tipoContrato === "Fixo") ? "block" : "none";
+            document.getElementById("campoHoraTecnica").style.display = (tipoContrato === "Variável") ? "block" : "none";
+            document.getElementById("campoHorasTrabalhadas").style.display = (tipoContrato === "Variável") ? "block" :
+
