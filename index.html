@@ -41,13 +41,13 @@
 
             let dadosFormulario = {
                 tipoContrato,
-                mensalidade,
-                horaTecnica,
+                mensalidade: mensalidade.toFixed(2),
+                horaTecnica: horaTecnica.toFixed(2),
                 horasTrabalhadas,
                 gfs,
                 dayoff,
                 mentorCate,
-                total
+                total: total.toFixed(2)
             };
 
             localStorage.setItem("dadosFormulario", JSON.stringify(dadosFormulario));
