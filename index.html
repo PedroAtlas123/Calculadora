@@ -28,4 +28,93 @@
             } else if (tipoContrato === "Variável") {
                 total = horasTrabalhadas * horaTecnica;
                 if (gfs === "Venda") {
-                    total +=
+                    total += 80 * horaTecnica;
+                }
+                if (dayoff.length > 0) {
+                    total += dayoff.length * 8 * horaTecnica;
+                }
+            }
+
+            if (mentorCate) {
+                total *= 1.2;
+            }
+
+            let dadosFormulario = {
+                tipoContrato,
+                mensalidade,
+                horaTecnica,
+                horasTrabalhadas,
+                gfs,
+                dayoff,
+                mentorCate,
+                total
+            };
+
+            localStorage.setItem("dadosFormulario", JSON.stringify(dadosFormulario));
+
+            // Redirecionar para a página da tabela após o cálculo
+            window.location.href = "tabela.html";
+        }
+
+        function alternarCampos() {
+            let tipoContrato = document.getElementById("tipoContrato").value;
+            document.getElementById("campoMensalidade").style.display = (tipoContrato === "Fixo") ? "block" : "none";
+            document.getElementById("campoHoraTecnica").style.display = (tipoContrato === "Variável") ? "block" : "none";
+            document.getElementById("campoHorasTrabalhadas").style.display = (tipoContrato === "Variável") ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+    <h2>Calculadora de Prestadores de Serviço</h2>
+
+    <label for="tipoContrato">Tipo de Contrato:</label>
+    <select id="tipoContrato" onchange="alternarCampos()">
+        <option value="Fixo">Fixo</option>
+        <option value="Variável">Variável</option>
+    </select>
+
+    <br><br>
+
+    <div id="campoMensalidade">
+        <label for="mensalidade">Valor da Mensalidade:</label>
+        <input type="number" id="mensalidade" placeholder="Digite o valor">
+    </div>
+
+    <div id="campoHoraTecnica" style="display:none;">
+        <label for="horaTecnica">Valor da Hora Técnica:</label>
+        <input type="number" id="horaTecnica" placeholder="Digite o valor">
+    </div>
+
+    <div id="campoHorasTrabalhadas" style="display:none;">
+        <label for="horasTrabalhadas">Horas Trabalhadas:</label>
+        <input type="number" id="horasTrabalhadas" placeholder="Digite as horas">
+    </div>
+
+    <br>
+
+    <label for="gfs">GFS:</label>
+    <select id="gfs">
+        <option value="Venda">Venda</option>
+        <option value="Usufruto">Usufruto</option>
+    </select>
+
+    <br>
+
+    <label>Dayoff:</label><br>
+    <input type="checkbox" name="dayoff" value="Paternidade"> Paternidade<br>
+    <input type="checkbox" name="dayoff" value="Casamento"> Casamento<br>
+    <input type="checkbox" name="dayoff" value="Aniversário"> Aniversário<br>
+    <input type="checkbox" name="dayoff" value="Condolências"> Condolências<br>
+    <input type="checkbox" name="dayoff" value="Feriado"> Feriado<br>
+    <input type="checkbox" name="dayoff" value="Atestado"> Atestado<br>
+
+    <br>
+
+    <label for="mentorCate">Mentor CATe:</label>
+    <input type="checkbox" id="mentorCate">
+
+    <br><br>
+
+    <button onclick="calcularTotal()">Calcular e Ver Tabela</button>
+</body>
+</html>
