@@ -3,44 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo do Pedido</title>
+    <title>Resumo dos Dados</title>
     <style>
         body { font-family: Arial, sans-serif; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
-    <h2>Resumo do Pedido</h2>
+    <h2>Resumo dos Dados Preenchidos</h2>
     <table>
         <tr>
-            <th>CLIENTE</th>
-            <th>PRODUTO</th>
-            <th>VOLUME</th>
-            <th>UNITÁRIO</th>
-            <th>TOTAL</th>
+            <th>Tipo de Contrato</th>
+            <td id="resumoContrato"></td>
+        </tr>
+        <tr id="linhaMensalidade" style="display: none;">
+            <th>Valor da Mensalidade</th>
+            <td id="resumoMensalidade"></td>
+        </tr>
+        <tr id="linhaHoraTecnica" style="display: none;">
+            <th>Valor da Hora Técnica</th>
+            <td id="resumoHoraTecnica"></td>
+        </tr>
+        <tr id="linhaHorasTrabalhadas" style="display: none;">
+            <th>Horas Trabalhadas</th>
+            <td id="resumoHorasTrabalhadas"></td>
         </tr>
         <tr>
-            <td id="cliente"></td>
-            <td id="produto"></td>
-            <td id="volume"></td>
-            <td id="unitario"></td>
-            <td id="total"></td>
+            <th>GFS</th>
+            <td id="resumoGFS"></td>
+        </tr>
+        <tr>
+            <th>Dayoff</th>
+            <td id="resumoDayoff"></td>
+        </tr>
+        <tr>
+            <th>Mentor CATe</th>
+            <td id="resumoMentor"></td>
+        </tr>
+        <tr>
+            <th>Total Calculado</th>
+            <td id="resumoTotal"></td>
         </tr>
     </table>
-
+    
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const dados = JSON.parse(localStorage.getItem("pedido"));
-            if (dados) {
-                document.getElementById("cliente").innerText = dados.cliente;
-                document.getElementById("produto").innerText = dados.produto;
-                document.getElementById("volume").innerText = dados.volume;
-                document.getElementById("unitario").innerText = dados.unitario;
-                document.getElementById("total").innerText = dados.total;
+        document.addEventListener("DOMContentLoaded", function() {
+            const dados = JSON.parse(localStorage.getItem("dadosFormulario"));
+            if (!dados) {
+                alert("Nenhum dado encontrado! Preencha o formulário primeiro.");
+                window.location.href = "index.html";
+                return;
             }
+
+            document.getElementById("resumoContrato").innerText = dados.tipoContrato;
+            document.getElementById("resumoGFS").innerText = dados.gfs;
+            document.getElementById("resumoMentor").innerText = dados.mentorCate ? "Sim" : "Não";
+            document.getElementById("resumoTotal").innerText = "R$ " + dados.total.toFixed(2);
+            
+            if (dados.tipoContrato === "Fixo") {
+                document.getElementById("linhaMensalidade").style.display = "table-row";
+                document.getElementById("resumoMensalidade").innerText = "R$ " + dados.mensalidade;
+            } else {
+                document.getElementById("linhaHoraTecnica").style.display = "table-row";
+                document.getElementById("linhaHorasTrabalhadas").style.display = "table-row";
+                document.getElementById("resumoHoraTecnica").innerText = "R$ " + dados.horaTecnica;
+                document.getElementById("resumoHorasTrabalhadas").innerText = dados.horasTrabalhadas + " horas";
+            }
+
+            document.getElementById("resumoDayoff").innerText = dados.dayoff.length > 0 ? dados.dayoff.join(", ") : "Nenhum";
         });
     </script>
 </body>
 </html>
+
