@@ -3,149 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo do Cálculo</title>
+    <title>Calculadora de Prestadores de Serviço</title>
 </head>
 <body>
-    <h2>Resumo do Cálculo</h2>
-    <table border="1">
-        <tr>
-            <th>Tipo de Contrato</th>
-            <th>Mensalidade</th>
-            <th>Hora Técnica</th>
-            </select>
-        </label>
-        <br>
+    <h2>Calculadora de Prestadores de Serviço</h2>
+    
+    <label for="tipoContrato">Tipo de Contrato:</label>
+    <select id="tipoContrato">
+        <option value="Fixo">Fixo</option>
+        <option value="Variável">Variável</option>
+    </select>
 
-        <div id="campoMensalidade">
-            <label>Valor da Mensalidade:
-                <input type="number" id="mensalidade" min="0">
-            </label>
-            <br>
-        </div>
+    <br>
 
-        <div id="campoHoraTecnica" style="display:none;">
-            <label>Valor da Hora Técnica:
-                <input type="number" id="horaTecnica" min="0">
-            </label>
-            <br>
-            <label>Horas Trabalhadas:
-                <input type="number" id="horasTrabalhadas" min="0">
-            </label>
-            <br>
-        </div>
+    <label for="mensalidade">Valor da Mensalidade:</label>
+    <input type="number" id="mensalidade" placeholder="Digite o valor">
 
-        <label>GFS:
-            <select id="gfs">
-                <option value="Venda">Venda</option>
-                <option value="Usufruto">Usufruto</option>
-            </select>
-        </label>
-        <br>
+    <br>
 
-        <label>Dayoff:</label>
-        <br>
-        <input type="checkbox" class="dayoff" value="Paternidade"> Paternidade <br>
-        <input type="checkbox" class="dayoff" value="Casamento"> Casamento <br>
-        <input type="checkbox" class="dayoff" value="Aniversário"> Aniversário <br>
-        <input type="checkbox" class="dayoff" value="Condolências"> Condolências <br>
-        <input type="checkbox" class="dayoff" value="Feriado"> Feriado <br>
-        <input type="checkbox" class="dayoff" value="Atestado"> Atestado <br>
-        <br>
+    <label for="horaTecnica">Valor da Hora Técnica:</label>
+    <input type="number" id="horaTecnica" placeholder="Digite o valor">
 
-        <label>Mentor CATe:
-            <input type="checkbox" id="mentorCate">
-        </label>
-        <br><br>
+    <br>
 
-        <button type="submit">Calcular</button>
-    </form>
+    <label for="horasTrabalhadas">Horas Trabalhadas:</label>
+    <input type="number" id="horasTrabalhadas" placeholder="Digite as horas">
 
-    <script>
-        document.getElementById("tipoContrato").addEventListener("change", function() {
-            let tipo = this.value;
-            document.getElementById("campoMensalidade").style.display = tipo === "Fixo" ? "block" : "none";
-            document.getElementById("campoHoraTecnica").style.display = tipo === "Variável" ? "block" : "none";
-        });
+    <br>
 
-        document.getElementById("formCalculadora").addEventListener("submit", function(event) {
-            event.preventDefault();
-            
-            let tipoContrato = document.getElementById("tipoContrato").value;
-            let mensalidade = parseFloat(document.getElementById("mensalidade").value) || 0;
-            let horaTecnica = parseFloat(document.getElementById("horaTecnica").value) || 0;
-            let horasTrabalhadas = parseFloat(document.getElementById("horasTrabalhadas").value) || 0;
-            let gfs = document.getElementById("gfs").value;
-            let mentorCate = document.getElementById("mentorCate").checked;
-            let dayoff = Array.from(document.querySelectorAll(".dayoff:checked")).map(el => el.value);
+    <label for="gfs">GFS:</label>
+    <select id="gfs">
+        <option value="Venda">Venda</option>
+        <option value="Usufruto">Usufruto</option>
+    </select>
 
-            let total = 0;
-            if (tipoContrato === "Fixo") {
-                total = mensalidade;
-                if (gfs === "Venda") total += mensalidade / 2;
-            } else {
-                total = horaTecnica * horasTrabalhadas;
-                if (gfs === "Venda") total += 80 * horaTecnica;
-            }
-            total += dayoff.length * 8 * (tipoContrato === "Variável" ? horaTecnica : 0);
-            if (mentorCate) total *= 1.2;
+    <br>
 
-            let dados = { tipoContrato, mensalidade, horaTecnica, horasTrabalhadas, gfs, mentorCate, dayoff, total };
-            localStorage.setItem("dadosFormulario", JSON.stringify(dados));
-            window.location.href = "tabela.html";
-        });
-    </script>
-</body>
-</html>
-        <fieldset>
-            <legend>Dayoff:</legend>
-            <label><input type="checkbox" value="8"> Paternidade</label>
-            <label><input type="checkbox" value="8"> Casamento</label>
-            <label><input type="checkbox" value="8"> Aniversário</label>
-            <label><input type="checkbox" value="8"> Condolências</label>
-            <label><input type="checkbox" value="8"> Feriado</label>
-            <label><input type="checkbox" value="8"> Atestado</label>
-        </fieldset>
-        
-        <label>Mentor CATe:
-            <input type="checkbox" id="mentorCate">
-        </label>
-        
-        <button type="button" onclick="calcular()">Calcular</button>
-    </form>
+    <label>Dayoff:</label><br>
+    <input type="checkbox" id="paternidade" value="Paternidade"> Paternidade<br>
+    <input type="checkbox" id="casamento" value="Casamento"> Casamento<br>
+    <input type="checkbox" id="aniversario" value="Aniversário"> Aniversário<br>
 
-    <script>
-        function atualizarCampos() {
-            const tipoContrato = document.getElementById("tipoContrato").value;
-            document.getElementById("campoMensalidade").style.display = tipoContrato === "Fixo" ? "block" : "none";
-            document.getElementById("campoVariavel").style.display = tipoContrato === "Variável" ? "block" : "none";
-        }
-
-        function calcular() {
-            const tipoContrato = document.getElementById("tipoContrato").value;
-            let total = 0;
-
-            if (tipoContrato === "Fixo") {
-                let mensalidade = parseFloat(document.getElementById("mensalidade").value) || 0;
-                if (document.getElementById("mentorCate").checked) {
-                    mensalidade *= 1.2;
-                }
-                total = mensalidade;
-            } else {
-                let horaTecnica = parseFloat(document.getElementById("horaTecnica").value) || 0;
-                let horasTrabalhadas = parseFloat(document.getElementById("horasTrabalhadas").value) || 0;
-                total = horaTecnica * horasTrabalhadas;
-                
-                document.querySelectorAll("input[type=checkbox]:checked").forEach(checkbox => {
-                    total += parseFloat(checkbox.value);
-                });
-                
-                if (document.getElementById("mentorCate").checked) {
-                    total *= 1.2;
-                }
-            }
-
-            alert("Total Calculado: R$ " + total.toFixed(2));
-        }
-    </script>
 </body>
 </html>
