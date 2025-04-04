@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo do Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Resumo do Pedido</h2>
+    <table>
+        <tr>
+            <th>CLIENTE</th>
+            <th>PRODUTO</th>
+            <th>VOLUME</th>
+            <th>UNITÁRIO</th>
+            <th>TOTAL</th>
+        </tr>
+        <tr>
+            <td id="cliente"></td>
+            <td id="produto"></td>
+            <td id="volume"></td>
+            <td id="unitario"></td>
+            <td id="total"></td>
+        </tr>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dados = JSON.parse(localStorage.getItem("pedido"));
+            if (dados) {
+                document.getElementById("cliente").innerText = dados.cliente;
+                document.getElementById("produto").innerText = dados.produto;
+                document.getElementById("volume").innerText = dados.volume;
+                document.getElementById("unitario").innerText = dados.unitario;
+                document.getElementById("total").innerText = dados.total;
+            }
+        });
+    </script>
+</body>
+</html>
