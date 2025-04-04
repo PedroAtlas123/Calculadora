@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Prestadores de Serviço</title>
     <link rel="stylesheet" href="style.css">
+
     <script>
         function calcularTotal() {
             let tipoContrato = document.getElementById("tipoContrato").value;
@@ -14,28 +15,32 @@
             let gfs = document.getElementById("gfs").value;
             let mentorCate = document.getElementById("mentorCate").checked;
 
-            let dayoff = [];
+            let dayoffSelecionados = [];
             document.querySelectorAll("input[name='dayoff']:checked").forEach((checkbox) => {
-                dayoff.push(checkbox.value);
+                dayoffSelecionados.push(checkbox.value);
             });
 
             let total = 0;
 
             if (tipoContrato === "Fixo") {
                 total = mensalidade;
+                // Se for venda de GFS, adiciona 50% da mensalidade
                 if (gfs === "Venda") {
                     total += mensalidade / 2;
                 }
             } else if (tipoContrato === "Variável") {
                 total = horasTrabalhadas * horaTecnica;
+
+                // Se GFS for "Venda", adicionar 80h * valor da hora técnica
                 if (gfs === "Venda") {
                     total += 80 * horaTecnica;
                 }
-                if (dayoff.length > 0) {
-                    total += dayoff.length * 8 * horaTecnica;
-                }
+
+                // Dayoff (8h multiplicado pelo número de dias e valor da hora técnica)
+                total += (dayoffSelecionados.length * 8 * horaTecnica);
             }
 
+            // Adiciona 20% se Mentor CATe for selecionado
             if (mentorCate) {
                 total *= 1.2;
             }
@@ -46,26 +51,31 @@
                 horaTecnica: horaTecnica.toFixed(2),
                 horasTrabalhadas,
                 gfs,
-                dayoff,
+                dayoff: dayoffSelecionados,
                 mentorCate,
                 total: total.toFixed(2)
             };
 
             localStorage.setItem("dadosFormulario", JSON.stringify(dadosFormulario));
 
-            // Redirecionar para a página da tabela após o cálculo
+            // Redireciona para a página da tabela
             window.location.href = "tabela.html";
         }
 
         function alternarCampos() {
             let tipoContrato = document.getElementById("tipoContrato").value;
+
+            // Mostra/esconde campos com base no contrato selecionado
             document.getElementById("campoMensalidade").style.display = (tipoContrato === "Fixo") ? "block" : "none";
             document.getElementById("campoHoraTecnica").style.display = (tipoContrato === "Variável") ? "block" : "none";
             document.getElementById("campoHorasTrabalhadas").style.display = (tipoContrato === "Variável") ? "block" : "none";
+
+            // Se for fixo, GFS não precisa ser selecionado
+            document.getElementById("campoGFS").style.display = (tipoContrato === "Variável") ? "block" : "none";
         }
     </script>
 </head>
-<body>
+<body onload="alternarCampos()">
     <h2>Calculadora de Prestadores de Serviço</h2>
 
     <label for="tipoContrato">Tipo de Contrato:</label>
@@ -77,12 +87,12 @@
     <br><br>
 
     <div id="campoMensalidade">
-        <label for="mensalidade">Valor da Mensalidade:</label>
+        <label for="mensalidade">Valor da Mensalidade (R$):</label>
         <input type="number" id="mensalidade" placeholder="Digite o valor">
     </div>
 
     <div id="campoHoraTecnica" style="display:none;">
-        <label for="horaTecnica">Valor da Hora Técnica:</label>
+        <label for="horaTecnica">Valor da Hora Técnica (R$):</label>
         <input type="number" id="horaTecnica" placeholder="Digite o valor">
     </div>
 
@@ -93,11 +103,13 @@
 
     <br>
 
-    <label for="gfs">GFS:</label>
-    <select id="gfs">
-        <option value="Venda">Venda</option>
-        <option value="Usufruto">Usufruto</option>
-    </select>
+    <div id="campoGFS" style="display:none;">
+        <label for="gfs">GFS:</label>
+        <select id="gfs">
+            <option value="Venda">Venda</option>
+            <option value="Usufruto">Usufruto</option>
+        </select>
+    </div>
 
     <br>
 
@@ -119,3 +131,4 @@
     <button onclick="calcularTotal()">Calcular e Ver Tabela</button>
 </body>
 </html>
+
