@@ -28,43 +28,4 @@
             } else if (tipoContrato === "Variável") {
                 total = horasTrabalhadas * horaTecnica;
                 if (gfs === "Venda") {
-                    total += 80 * horaTecnica;
-                }
-                if (dayoff.length > 0) {
-                    total += dayoff.length * 8 * horaTecnica;
-                }
-            }
-
-            if (mentorCate) {
-                total *= 1.2;
-            }
-
-            let dadosFormulario = {
-                tipoContrato,
-                mensalidade,
-                horaTecnica,
-                horasTrabalhadas,
-                gfs,
-                dayoff,
-                mentorCate,
-                total
-            };
-
-            localStorage.setItem("dadosFormulario", JSON.stringify(dadosFormulario));
-            document.getElementById("mensagemSucesso").textContent = "Cálculo realizado com sucesso!";
-        }
-
-        function enviarFormulario() {
-            if (localStorage.getItem("dadosFormulario")) {
-                window.location.href = "tabela.html";
-            } else {
-                alert("Calcule os valores antes de enviar!");
-            }
-        }
-
-        function alternarCampos() {
-            let tipoContrato = document.getElementById("tipoContrato").value;
-            document.getElementById("campoMensalidade").style.display = (tipoContrato === "Fixo") ? "block" : "none";
-            document.getElementById("campoHoraTecnica").style.display = (tipoContrato === "Variável") ? "block" : "none";
-            document.getElementById("campoHorasTrabalhadas").style.display = (tipoContrato === "Variável") ? "block" :
-
+                    total +=
