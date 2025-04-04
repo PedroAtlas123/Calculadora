@@ -3,78 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo dos Dados</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid black; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <title>Resumo do Cálculo</title>
 </head>
 <body>
-    <h2>Resumo dos Dados Preenchidos</h2>
-    <table>
+    <h2>Resumo do Cálculo</h2>
+    <table border="1">
         <tr>
             <th>Tipo de Contrato</th>
-            <td id="resumoContrato"></td>
-        </tr>
-        <tr id="linhaMensalidade" style="display: none;">
-            <th>Valor da Mensalidade</th>
-            <td id="resumoMensalidade"></td>
-        </tr>
-        <tr id="linhaHoraTecnica" style="display: none;">
-            <th>Valor da Hora Técnica</th>
-            <td id="resumoHoraTecnica"></td>
-        </tr>
-        <tr id="linhaHorasTrabalhadas" style="display: none;">
+            <th>Mensalidade</th>
+            <th>Hora Técnica</th>
             <th>Horas Trabalhadas</th>
-            <td id="resumoHorasTrabalhadas"></td>
-        </tr>
-        <tr>
             <th>GFS</th>
-            <td id="resumoGFS"></td>
-        </tr>
-        <tr>
             <th>Dayoff</th>
-            <td id="resumoDayoff"></td>
-        </tr>
-        <tr>
             <th>Mentor CATe</th>
-            <td id="resumoMentor"></td>
+            <th>Total</th>
         </tr>
         <tr>
-            <th>Total Calculado</th>
-            <td id="resumoTotal"></td>
+            <td id="tipoContrato"></td>
+            <td id="mensalidade"></td>
+            <td id="horaTecnica"></td>
+            <td id="horasTrabalhadas"></td>
+            <td id="gfs"></td>
+            <td id="dayoff"></td>
+            <td id="mentorCate"></td>
+            <td id="total"></td>
         </tr>
     </table>
+    <br>
+    <button onclick="window.location.href='index.html'">Voltar</button>
     
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const dados = JSON.parse(localStorage.getItem("dadosFormulario"));
-            if (!dados) {
-                alert("Nenhum dado encontrado! Preencha o formulário primeiro.");
-                window.location.href = "index.html";
-                return;
-            }
-
-            document.getElementById("resumoContrato").innerText = dados.tipoContrato;
-            document.getElementById("resumoGFS").innerText = dados.gfs;
-            document.getElementById("resumoMentor").innerText = dados.mentorCate ? "Sim" : "Não";
-            document.getElementById("resumoTotal").innerText = "R$ " + dados.total.toFixed(2);
+        let dados = JSON.parse(localStorage.getItem("dadosFormulario"));
+        if (dados) {
+            document.getElementById("tipoContrato").textContent = dados.tipoContrato;
+            document.getElementById("mensalidade").textContent = dados.mensalidade ? `R$ ${Number(dados.mensalidade).toFixed(2)}` : "-";
+            document.getElementById("horaTecnica").textContent = dados.horaTecnica ? `R$ ${Number(dados.horaTecnica).toFixed(2)}` : "-";
+            document.getElementById("horasTrabalhadas").textContent = dados.horasTrabalhadas || "-";
+            document.getElementById("gfs").textContent = dados.gfs;
+            document.getElementById("dayoff").textContent = dados.dayoff.length ? dados.dayoff.join(", ") : "Nenhum";
+            document.getElementById("mentorCate").textContent = dados.mentorCate ? "Sim" : "Não";
             
-            if (dados.tipoContrato === "Fixo") {
-                document.getElementById("linhaMensalidade").style.display = "table-row";
-                document.getElementById("resumoMensalidade").innerText = "R$ " + dados.mensalidade;
-            } else {
-                document.getElementById("linhaHoraTecnica").style.display = "table-row";
-                document.getElementById("linhaHorasTrabalhadas").style.display = "table-row";
-                document.getElementById("resumoHoraTecnica").innerText = "R$ " + dados.horaTecnica;
-                document.getElementById("resumoHorasTrabalhadas").innerText = dados.horasTrabalhadas + " horas";
-            }
-
-            document.getElementById("resumoDayoff").innerText = dados.dayoff.length > 0 ? dados.dayoff.join(", ") : "Nenhum";
-        });
+            let totalCalculado = Number(dados.total) || 0; // Garante que seja um número válido
+            document.getElementById("total").textContent = `R$ ${totalCalculado.toFixed(2)}`;
+        }
     </script>
 </body>
 </html>
-
