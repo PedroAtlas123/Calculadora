@@ -1,9 +1,10 @@
 body {
     font-family: Arial, sans-serif;
-    allign:center ;
     background-image: url("images/galaxia.jpg");
     background-size: cover;
     background-position: center;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
@@ -13,14 +14,19 @@ body {
     background-color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    text-align: center; /* Centraliza os textos dentro da caixa */
 }
 
 h2 {
     color: #333;
+    text-align: center; /* Centraliza o título */
 }
 
 label {
     font-weight: bold;
+    display: block;
+    text-align: left; /* se quiser manter os labels alinhados à esquerda */
+    margin-left: 5%;
 }
 
 input, select {
@@ -38,14 +44,18 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 15px;
 }
 
 button:hover {
-    background-color: #8300ff;
+    background-color: #6200cc;
 }
 
 .logo {
     width: 100px;
     margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
