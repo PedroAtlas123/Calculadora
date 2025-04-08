@@ -1,58 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo do Cálculo</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resumo do Cálculo</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
     <h2>Resumo do Cálculo</h2>
     <table border="1">
-        <tr>
-            <th>Tipo de Contrato</th>
-            <th>Mensalidade</th>
-            <th>Hora Técnica</th>
-            <th>Horas Trabalhadas</th>
-            <th>GFS</th>
-            <th>Dayoff</th>
-            <th>Mentor CATe</th>
-            <th>Total</th>
-        </tr>
-        <tr>
-            <td id="tipoContrato"></td>
-            <td id="mensalidade"></td>
-            <td id="horaTecnica"></td>
-            <td id="horasTrabalhadas"></td>
-            <td id="gfs"></td>
-            <td id="dayoff"></td>
-            <td id="mentorCate"></td>
-            <td id="total"></td>
-        </tr>
+      <tr>
+        <th>Tipo de Contrato</th>
+        <th>Mensalidade</th>
+        <th>Hora Técnica</th>
+        <th>Horas Trabalhadas</th>
+        <th>GFS</th>
+        <th>Dayoff</th>
+        <th>Mentor CATe</th>
+        <th>Total</th>
+      </tr>
+      <tr>
+        <td id="tipoContrato"></td>
+        <td id="mensalidade"></td>
+        <td id="horaTecnica"></td>
+        <td id="horasTrabalhadas"></td>
+        <td id="gfs"></td>
+        <td id="dayoff"></td>
+        <td id="mentorCate"></td>
+        <td id="total"></td>
+      </tr>
     </table>
-    <br>
+    <br/>
     <button onclick="window.location.href='index.html'">Voltar</button>
+  </div>
 
-    <script>
-        let dados = JSON.parse(localStorage.getItem("dadosFormulario"));
-        if (dados) {
-            document.getElementById("tipoContrato").textContent = dados.tipoContrato || "-";
-            document.getElementById("mensalidade").textContent = dados.mensalidade && dados.mensalidade !== "NaN" ? `R$ ${dados.mensalidade}` : "-";
-            document.getElementById("horaTecnica").textContent = dados.horaTecnica && dados.horaTecnica !== "NaN" ? `R$ ${dados.horaTecnica}` : "-";
-            document.getElementById("horasTrabalhadas").textContent = dados.horasTrabalhadas || "-";
-            document.getElementById("gfs").textContent = dados.gfs || "-";
-
-            // Exibir cada Dayoff em nova linha
-            const dayoffFormatado = (dados.dayoff && dados.dayoff.length > 0)
-                ? dados.dayoff.map(item => `<li>${item}</li>`).join("")
-                : "<li>Nenhum</li>";
-
-            document.getElementById("dayoff").innerHTML = `<ul>${dayoffFormatado}</ul>`;
-            document.getElementById("mentorCate").textContent = dados.mentorCate ? "Sim" : "Não";
-            document.getElementById("total").textContent = `R$ ${dados.total}`;
-        }
-    </script>
+  <script>
+    let dados = JSON.parse(localStorage.getItem("dadosFormulario"));
+    if (dados) {
+      document.getElementById("tipoContrato").textContent = dados.tipoContrato;
+      document.getElementById("mensalidade").textContent = dados.mensalidade ? `R$ ${dados.mensalidade}` : "-";
+      document.getElementById("horaTecnica").textContent = dados.horaTecnica ? `R$ ${dados.horaTecnica}` : "-";
+      document.getElementById("horasTrabalhadas").textContent = dados.horasTrabalhadas || "-";
+      document.getElementById("gfs").textContent = dados.gfs;
+      document.getElementById("dayoff").textContent = dados.dayoff || "Nenhum";
+      document.getElementById("mentorCate").textContent = dados.mentorCate ? "Sim" : "Não";
+      document.getElementById("total").textContent = `R$ ${dados.total}`;
+    }
+  </script>
 </body>
 </html>
-
-
