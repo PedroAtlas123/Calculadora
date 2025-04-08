@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Prestadores de Serviço</title>
-    <link rel="stylesheet" href="/calculadora/style.css">
+    <link rel="stylesheet" href="style.css">
     <script>
         function calcularTotal() {
             let tipoContrato = document.getElementById("tipoContrato").value;
@@ -14,10 +14,9 @@
             let gfs = document.getElementById("gfs").value;
             let mentorCate = document.getElementById("mentorCate").checked;
 
-            let dayoff = [];
-            document.querySelectorAll("input[name='dayoff']:checked").forEach((checkbox) => {
-                dayoff.push(checkbox.value);
-            });
+            // Novo: capturar texto dos Dayoffs
+            let dayoffTexto = document.getElementById("dayoff").value;
+            let dayoffList = dayoffTexto.split(";").filter(item => item.trim() !== "");
 
             let total = 0;
 
@@ -31,8 +30,8 @@
                 if (gfs === "Venda") {
                     total += 80 * horaTecnica;
                 }
-                if (dayoff.length > 0) {
-                    total += dayoff.length * 8 * horaTecnica;
+                if (dayoffList.length > 0) {
+                    total += dayoffList.length * 8 * horaTecnica;
                 }
             }
 
@@ -46,14 +45,14 @@
                 horaTecnica: horaTecnica.toFixed(2),
                 horasTrabalhadas,
                 gfs,
-                dayoff,
+                dayoff: dayoffList,
                 mentorCate,
                 total: total.toFixed(2)
             };
 
             localStorage.setItem("dadosFormulario", JSON.stringify(dadosFormulario));
 
-            // Redirecionar para a página da tabela após o cálculo
+            // Redirecionar para a página da tabela
             window.location.href = "tabela.html";
         }
 
@@ -66,50 +65,54 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <img src="logo.png" alt="Logo" class="logo">
-        <h2>Calculadora de Prestadores de Serviço</h2>
+    <h2>Calculadora de Prestadores de Serviço</h2>
 
-        <label for="tipoContrato">Tipo de Contrato:</label>
-        <select id="tipoContrato" onchange="alternarCampos()">
-            <option value="Fixo">Fixo</option>
-            <option value="Variável">Variável</option>
-        </select>
+    <label for="tipoContrato">Tipo de Contrato:</label>
+    <select id="tipoContrato" onchange="alternarCampos()">
+        <option value="Fixo">Fixo</option>
+        <option value="Variável">Variável</option>
+    </select>
 
-        <div id="campoMensalidade">
-            <label for="mensalidade">Valor da Mensalidade:</label>
-            <input type="number" id="mensalidade" placeholder="Digite o valor">
-        </div>
+    <br><br>
 
-        <div id="campoHoraTecnica" style="display:none;">
-            <label for="horaTecnica">Valor da Hora Técnica:</label>
-            <input type="number" id="horaTecnica" placeholder="Digite o valor">
-        </div>
-
-        <div id="campoHorasTrabalhadas" style="display:none;">
-            <label for="horasTrabalhadas">Horas Trabalhadas:</label>
-            <input type="number" id="horasTrabalhadas" placeholder="Digite as horas">
-        </div>
-
-        <label for="gfs">GFS:</label>
-        <select id="gfs">
-            <option value="Venda">Venda</option>
-            <option value="Usufruto">Usufruto</option>
-        </select>
-
-        <label>Dayoff:</label><br>
-        <input type="checkbox" name="dayoff" value="Paternidade"> Paternidade<br>
-        <input type="checkbox" name="dayoff" value="Casamento"> Casamento<br>
-        <input type="checkbox" name="dayoff" value="Aniversário"> Aniversário<br>
-        <input type="checkbox" name="dayoff" value="Condolências"> Condolências<br>
-        <input type="checkbox" name="dayoff" value="Feriado"> Feriado<br>
-        <input type="checkbox" name="dayoff" value="Atestado"> Atestado<br>
-
-        <label for="mentorCate">Mentor CATe:</label>
-        <input type="checkbox" id="mentorCate">
-
-        <button onclick="calcularTotal()">Calcular e Ver Tabela</button>
+    <div id="campoMensalidade">
+        <label for="mensalidade">Valor da Mensalidade:</label>
+        <input type="number" id="mensalidade" placeholder="Digite o valor">
     </div>
+
+    <div id="campoHoraTecnica" style="display:none;">
+        <label for="horaTecnica">Valor da Hora Técnica:</label>
+        <input type="number" id="horaTecnica" placeholder="Digite o valor">
+    </div>
+
+    <div id="campoHorasTrabalhadas" style="display:none;">
+        <label for="horasTrabalhadas">Horas Trabalhadas:</label>
+        <input type="number" id="horasTrabalhadas" placeholder="Digite as horas">
+    </div>
+
+    <br>
+
+    <label for="gfs">GFS:</label>
+    <select id="gfs">
+        <option value="Venda">Venda</option>
+        <option value="Usufruto">Usufruto</option>
+    </select>
+
+    <br><br>
+
+    <!-- Caixa de texto para Dayoff -->
+    <label for="dayoff">Dayoff (informe data e motivo separados por ";"):</label><br>
+    <textarea id="dayoff" rows="4" cols="50" placeholder="Ex: 02/04 - Paternidade; 05/04 - Atestado"></textarea>
+
+    <br><br>
+
+    <label for="mentorCate">Mentor CATe:</label>
+    <input type="checkbox" id="mentorCate">
+
+    <br><br>
+
+    <button onclick="calcularTotal()">Calcular e Ver Tabela</button>
 </body>
 </html>
+
 
